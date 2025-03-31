@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { UserSession } = require("../model");
+const { User, UserSession } = require("../model");
 const AppError = require("./appError");
+const { where } = require("sequelize");
 
 
 //create hash password
@@ -54,6 +55,41 @@ const sendAcessTokenAndRefeshToken = (res, accessToken, refreshToken) => {
 
 }
 
+//verify jwt Token
+const verifyJWTToken = (token) => {
+    return jwt.verify(token, process.env.JWT_SECRET_KEY)
+}
+
+//create access token from refresh token
+const refreshTokens = async (token) => {
+    const decodedToken = verifyJWTToken(token);
+
+    // const session = await UserSession.findOne({ where: { id: decodedToken.sessionId } });
+    const session = await UserSession.findByPk(decodedToken.sessionId);
+    if (!userdetails) {
+        return next(new AppError(`Invalid Session`, 400))
+    }
+    const { userid } = session;
+
+    // const userdetails = await User.findOne({ where: { id: userid } })
+    const userdetails = await User.findByPk(userid)
+    if (!userdetails) {
+        return next(new AppError(`Invalid User`, 400))
+    }
+
+    const { username, email } = userdetails;
+    const userinfo = {
+        id: userid,
+        name: username,
+        email: email,
+        sessionId: session.id,
+    }
+    const newaccessToken = createAccessToken(userinfo);
+
+    const newrefreshToken = createRefreshToken(session.id);
+
+    return { newaccessToken, newrefreshToken, user:userinfo }
+}
 
 
 module.exports = {
@@ -63,4 +99,8 @@ module.exports = {
     createAccessToken,
     createRefreshToken,
     sendAcessTokenAndRefeshToken,
+    verifyJWTToken,
+    refreshTokens,
+
+
 }

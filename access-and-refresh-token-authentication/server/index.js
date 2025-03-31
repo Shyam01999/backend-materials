@@ -32,6 +32,7 @@ const userRoutes = require("./router/userRoute/user.routes");
 const globalErrorHandler = require("./middleware/globalErrorHandler");
 const TryCatch = require("./utils/TryCatch");
 const AppError = require("./utils/appError");
+const { isAuthenticated } = require("./middleware/isAuthenticated");
 
 //middleware
 app.use(express.json());
@@ -52,6 +53,9 @@ app.use('*', TryCatch(async (req, res, next) => {
 
 //global error handler
 app.use(globalErrorHandler);
+
+//authtication function
+app.use(isAuthenticated)
 
 db.sequelize
     .sync({ force: false })
