@@ -91,6 +91,12 @@ const refreshTokens = async (token) => {
     return { newaccessToken, newrefreshToken, user:userinfo }
 }
 
+const clearSession = async(sessionId) => {
+    const session = UserSession.findByPk(sessionId);
+
+    session.destroy();
+}
+
 
 module.exports = {
     generateHashPassword,
@@ -101,6 +107,7 @@ module.exports = {
     sendAcessTokenAndRefeshToken,
     verifyJWTToken,
     refreshTokens,
-
+    clearSession,
+    
 
 }

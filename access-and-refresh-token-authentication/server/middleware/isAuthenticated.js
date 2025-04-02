@@ -11,7 +11,7 @@ const isAuthenticated = TryCatch(async (req, res, next) => {
     }
 
     if (accessToken) {
-        const decodedToken = verifyJWTToken(accessToken);
+        const decodedToken = verifyJWTToken(accessToken);   
         req.user = decodedToken;
         return next();
     }
@@ -19,13 +19,12 @@ const isAuthenticated = TryCatch(async (req, res, next) => {
     if (refreshToken) {
         // const decodedToken = verifyJWTToken(accessToken);
         const { newaccessToken, newrefreshToken, user } = await refreshTokens(refreshToken)
-
+        req.user = user;
         sendAcessTokenAndRefeshToken(res, newaccessToken, newrefreshToken);
-
-        return next()
-
-
+        return next();
     }
+
+    return next();
 });
 
-module.exports = {isAuthenticated}
+module.exports = { isAuthenticated }

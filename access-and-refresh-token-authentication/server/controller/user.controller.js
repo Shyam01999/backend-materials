@@ -1,7 +1,7 @@
 const express = require("express");
 const { User } = require("../model");
 const AppError = require("../utils/appError");
-const { generateHashPassword, verifyHashPassword, createSession, createAccessToken, createRefreshToken, sendAcessTokenAndRefeshToken } = require("../utils/authHelper");
+const { generateHashPassword, verifyHashPassword, createSession, createAccessToken, createRefreshToken, sendAcessTokenAndRefeshToken, clearSession } = require("../utils/authHelper");
 
 const register = async (req, res, next) => {
     try {
@@ -36,7 +36,7 @@ const register = async (req, res, next) => {
 
         //create record in session table
         const session = await createSession(userid, valid = true, { user_agent: req.headers['user-agent'], ip: req.clientIp });
-        
+
         const accessToken = createAccessToken({
             id: userid,
             name: username,
@@ -48,7 +48,7 @@ const register = async (req, res, next) => {
 
         sendAcessTokenAndRefeshToken(res, accessToken, refreshToken);
 
-        res.status(201).json({ message: "Registration Successfull", userData: newUser, sessionDetails:session});
+        res.status(201).json({ message: "Registration Successfull", userData: newUser, sessionDetails: session });
     }
     catch (error) {
         console.error("Registration error:", error);
@@ -59,7 +59,7 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-       
+
         //check email exit
         const checkEmail = await User.findOne({ where: { email } });
 
@@ -90,7 +90,8 @@ const login = async (req, res, next) => {
 
         sendAcessTokenAndRefeshToken(res, accessToken, refreshToken);
 
-        res.status(200).json({ message: "Login Successfull", userData: checkEmail, session });
+        // res.status(200).json({ message: "Login Successfull", userData: checkEmail, session });
+        res.redirect("/");
     }
     catch (error) {
         console.error("login error:", error);
@@ -102,9 +103,18 @@ const getUserDetails = async (req, res) => {
 
 }
 
+const logout = async (req, res, next) => {
+    await clearSession(req.user.session.id);
+    res.clearCookie("");
+    res.clearCookie("");
+    res.redirect("/")
+}
+
 
 module.exports = {
     register,
     login,
     getUserDetails,
+    logout,
+
 }
