@@ -1,5 +1,5 @@
 const AppError = require("../utils/appError");
-const { verifyJWTToken, refreshTokens } = require("../utils/authHelper");
+const { verifyJWTToken, refreshTokens, sendAcessTokenAndRefeshToken } = require("../utils/authHelper");
 const TryCatch = require("../utils/TryCatch");
 
 const isAuthenticated = TryCatch(async (req, res, next) => {
@@ -9,9 +9,12 @@ const isAuthenticated = TryCatch(async (req, res, next) => {
     if (!accessToken && !refreshToken) {
         return next(new AppError(`Please login to access this route`, 401))
     }
-
+    
     if (accessToken) {
         const decodedToken = verifyJWTToken(accessToken);   
+        if(!decodedToken){
+
+        }
         req.user = decodedToken;
         return next();
     }

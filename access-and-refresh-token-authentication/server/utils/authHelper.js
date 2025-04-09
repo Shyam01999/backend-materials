@@ -57,7 +57,12 @@ const sendAcessTokenAndRefeshToken = (res, accessToken, refreshToken) => {
 
 //verify jwt Token
 const verifyJWTToken = (token) => {
-    return jwt.verify(token, process.env.JWT_SECRET_KEY)
+    try {
+        return jwt.verify(token, process.env.JWT_SECRET_KEY);
+    } catch (err) {
+        console.error("JWT verification failed:", err.message);
+        return null; // or throw a custom error
+    }
 }
 
 //create access token from refresh token
@@ -66,7 +71,7 @@ const refreshTokens = async (token) => {
 
     // const session = await UserSession.findOne({ where: { id: decodedToken.sessionId } });
     const session = await UserSession.findByPk(decodedToken.sessionId);
-    if (!userdetails) {
+    if (!session) {
         return next(new AppError(`Invalid Session`, 400))
     }
     const { userid } = session;
@@ -88,13 +93,18 @@ const refreshTokens = async (token) => {
 
     const newrefreshToken = createRefreshToken(session.id);
 
-    return { newaccessToken, newrefreshToken, user:userinfo }
+    return { newaccessToken, newrefreshToken, user: userinfo }
 }
 
-const clearSession = async(sessionId) => {
-    const session = UserSession.findByPk(sessionId);
+const clearSession = async (sessionId) => {
+    const session = await UserSession.findByPk(sessionId);
+    // console.log("session", session)
+    if (!session) {
+        return next(new AppError("Session not found", 400));
+    }
 
-    session.destroy();
+    await session.destroy();
+    return { success: true, message: "Session cleared" };
 }
 
 
@@ -108,6 +118,6 @@ module.exports = {
     verifyJWTToken,
     refreshTokens,
     clearSession,
-    
+
 
 }

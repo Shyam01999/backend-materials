@@ -90,8 +90,8 @@ const login = async (req, res, next) => {
 
         sendAcessTokenAndRefeshToken(res, accessToken, refreshToken);
 
-        // res.status(200).json({ message: "Login Successfull", userData: checkEmail, session });
-        res.redirect("/");
+        res.status(200).json({ message: "Login Successfull", userData: checkEmail, session });
+        // res.redirect("/");
     }
     catch (error) {
         console.error("login error:", error);
@@ -104,10 +104,19 @@ const getUserDetails = async (req, res) => {
 }
 
 const logout = async (req, res, next) => {
-    await clearSession(req.user.session.id);
-    res.clearCookie("");
-    res.clearCookie("");
-    res.redirect("/")
+    const {success, message} = await clearSession(req.user.sessionId);
+    
+    if(!success){
+        return next(new AppError(`Session not deleted`, 500))
+    }
+
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
+    res.status(200).json({
+        success:true,
+        message:"Logout successfully"
+    })
+    // res.redirect("/")
 }
 
 
