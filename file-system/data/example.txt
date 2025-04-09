@@ -1,0 +1,2 @@
+Hello from node js
+ This is a append content into the file
