@@ -4,6 +4,7 @@ function delay(time){
 }
 
 async function delayGreet(name){
+    console.log("delay greet for 2 second please wait...")
     await delay(2000);
     console.log('Hello', name)
 }
@@ -31,4 +32,4 @@ async function main() {
     
 }
 
-main();
+// main();
