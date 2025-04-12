@@ -3,7 +3,8 @@ const app = express();
 
 //middleware
 const requestTimeStampLogger = (req, res, next) => {
-    console.log("This is the first middleware run on every request");
+    const timeStamp = new Date().toISOString();
+    console.log(`${timeStamp} from ${req.method} to ${req.url}`);
     next()
 };
 
