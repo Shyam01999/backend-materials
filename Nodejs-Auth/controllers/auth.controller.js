@@ -1,11 +1,11 @@
 const User = require("../models/user.model");
-const { generateHashPassword } = require("../utils/authHelper");
+const { generateHashPassword, createAccessToken, verifyHashPassword } = require("../utils/authHelper");
 
 const register = async (req, res) => {
     try {
         let { username, email, password, role } = req.body;
 
-        const checkRecord = await User.findOne()
+        const checkRecord = await User.findOne({ $or: [{ username }, { email }] })
 
         if (checkRecord) {
             return res.status(400).json({
@@ -17,6 +17,7 @@ const register = async (req, res) => {
         //hash password
         password = await generateHashPassword(password);
 
+        //create token
         const newUser = await User.create({
             username,
             email,
@@ -25,9 +26,17 @@ const register = async (req, res) => {
         });
 
         if (newUser) {
+            const accessToken = createAccessToken({
+                id: newUser._id,
+                username,
+                email,
+                role
+            });
+
             res.status(201).json({
                 success: true,
                 message: "Registration successfull",
+                accessToken: accessToken,
                 newUser
             })
         } else {
@@ -48,7 +57,40 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
+        const { username, password } = req.body;
 
+        const checkRecord = await User.findOne({ username });
+
+        if (!checkRecord) {
+            return res.status(400).json({
+                success: false,
+                message: "Username does not exist"
+            })
+        }
+        const { _id: id, password: hashpassword, email, role } = checkRecord
+
+        // check password
+        const verifyPassword = await verifyHashPassword(hashpassword, password,);
+
+        if (!verifyPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid credentials"
+            })
+        }
+
+        const accessToken = createAccessToken({
+            id,
+            username,
+            email,
+            role
+        });
+
+        res.status(201).json({
+            success: true,
+            message: "Login successfull",
+            accessToken: accessToken,
+        })
     }
     catch (error) {
         console.log(error);
@@ -62,6 +104,5 @@ const login = async (req, res) => {
 module.exports = {
     register,
     login,
-
 }
 

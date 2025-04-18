@@ -13,7 +13,7 @@ const isAuthenticated = TryCatch(async (req, res, next) => {
     if (accessToken) {
         const decodedToken = verifyJWTToken(accessToken);   
         if(!decodedToken){
-
+            return next(new AppError(`Access denied! Please provide the correct token to login`, 401))
         }
         req.user = decodedToken;
         return next();

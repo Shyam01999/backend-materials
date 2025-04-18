@@ -6,6 +6,6 @@ const { home } = require("../controllers/home.controller");
 
 const homeRoutes = express.Router();
 
-homeRoutes.get("/", isAuthenticated, isAdmin, home);
+homeRoutes.get("/dashboard", isAuthenticated, isAdmin(["admin"]), home);
 
 module.exports = homeRoutes;

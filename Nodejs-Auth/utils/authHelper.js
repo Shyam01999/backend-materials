@@ -1,7 +1,5 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const { User, UserSession } = require("../model");
-
 
 //create hash password
 const generateHashPassword = async (password) => {
@@ -16,42 +14,10 @@ const verifyHashPassword = async (hashpassword, password) => {
     return checkpassword;
 }
 
-//create session table record
-// const createSession = async (userid, valid, { user_agent, ip }) => {
-//     const newSession = await UserSession.create({ userid, valid, user_agent, ip });
-
-//     if (!newSession) {
-//         return next(new AppError(`Session not created`, 500))
-//     }
-
-//     return newSession;
-// }
-
-// const createAccessToken = (accessTokenData) => {
-//     const { id, name, email, sessionId } = accessTokenData;
-//     return jwt.sign({ id, name, email, sessionId }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRES }) //expiresin 15m
-// }
-
-// const createRefreshToken = (sessionId) => {
-//     return jwt.sign({ sessionId }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.REFRESH_TOKEN_EXPIRES }) //expiresin 7day
-// }
-
-// const sendAcessTokenAndRefeshToken = (res, accessToken, refreshToken) => {
-//     //options for cookie
-//     // const cookieExpire = new Date(Date.now() + (process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000));
-//     const options = {
-//         httpOnly: process.env.HTTP_ONLY === "true",  // better to keep this true for security reasons
-//         secure: process.env.COOKIE_SECURE === "true",
-//         sameSite: 'lax', // Adjust if needed
-//         path: '/', // Adjust if needed
-//         maxAge: 15 * 60 * 1000
-//     };
-
-//     res.cookie("access_token", accessToken, { ...options, maxAge: 15 * 60 * 1000 });
-
-//     res.cookie("refresh_token", refreshToken, { ...options, maxAge: 7 * 24 * 60 * 60 * 1000 });
-
-// }
+const createAccessToken = (accessTokenData) => {
+    const { id, username, email, role } = accessTokenData;
+    return jwt.sign({ id, username, email, role }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRES }) //expiresin 30m
+}
 
 //verify jwt Token
 const verifyJWTToken = (token) => {
@@ -63,59 +29,9 @@ const verifyJWTToken = (token) => {
     }
 }
 
-//create access token from refresh token
-// const refreshTokens = async (token) => {
-//     const decodedToken = verifyJWTToken(token);
-
-//     // const session = await UserSession.findOne({ where: { id: decodedToken.sessionId } });
-//     const session = await UserSession.findByPk(decodedToken.sessionId);
-//     if (!session) {
-//         return next(new AppError(`Invalid Session`, 400))
-//     }
-//     const { userid } = session;
-
-//     // const userdetails = await User.findOne({ where: { id: userid } })
-//     const userdetails = await User.findByPk(userid)
-//     if (!userdetails) {
-//         return next(new AppError(`Invalid User`, 400))
-//     }
-
-//     const { username, email } = userdetails;
-//     const userinfo = {
-//         id: userid,
-//         name: username,
-//         email: email,
-//         sessionId: session.id,
-//     }
-//     const newaccessToken = createAccessToken(userinfo);
-
-//     const newrefreshToken = createRefreshToken(session.id);
-
-//     return { newaccessToken, newrefreshToken, user: userinfo }
-// }
-
-// const clearSession = async (sessionId) => {
-//     const session = await UserSession.findByPk(sessionId);
-//     // console.log("session", session)
-//     if (!session) {
-//         return next(new AppError("Session not found", 400));
-//     }
-
-//     await session.destroy();
-//     return { success: true, message: "Session cleared" };
-// }
-
-
 module.exports = {
     generateHashPassword,
     verifyHashPassword,
-    // createSession,
-    // createAccessToken,
-    // createRefreshToken,
-    // sendAcessTokenAndRefeshToken,
+    createAccessToken,
     verifyJWTToken,
-    // refreshTokens,
-    // clearSession,
-
-
 }
