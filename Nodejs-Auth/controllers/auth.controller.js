@@ -101,8 +101,64 @@ const login = async (req, res) => {
     }
 }
 
+const changePassword = async (req, res) => {
+    try {
+        // const { oldPassword, newPassword } = req.body;
+        const oldPassword = req.body?.oldPassword;
+        const newPassword = req.body?.newPassword;
+
+        if (!oldPassword || !newPassword) {
+            return res.status(404).json({
+                success: false,
+                message: "Please enter your old password and new password",
+            })
+        };
+
+        const { password, _id } = req.user;
+        
+        const verifyPassword = await verifyHashPassword(password, oldPassword);
+
+        if (!verifyPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter your correct old password",
+            })
+        }
+
+        const hashPassword = await generateHashPassword(newPassword)
+
+        // Update the user's password
+        const updatedUser = await User.findByIdAndUpdate(
+            _id,
+            { password: hashPassword },
+            { new: true, select: 'email username' } // Return updated document, exclude password
+        );
+
+        if (!updatedUser) {
+            return res.status(400).json({
+                success: false,
+                message: "Password Update failed",
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "New Password updated successfully",
+            data: updatedUser
+        })
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: true,
+            message: "Something went very wrong !Please try again"
+        });
+    }
+}
+
 module.exports = {
     register,
     login,
+    changePassword,
 }
 
