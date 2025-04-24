@@ -43,6 +43,34 @@ const imageUpload = async (req, res) => {
     }
 }
 
+const getAllImage = async (req, res) => {
+    try {
+        const allImagedata = await Image.find();
+
+        if (!allImagedata) {
+            return res.status(404).json({
+                success: false,
+                message: "No Images available"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "List of all Images",
+            data: allImagedata
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Something went very wrong ! please try again"
+        })
+    }
+}
+
 module.exports = {
-    imageUpload
+    imageUpload,
+    getAllImage,
+
 }

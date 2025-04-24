@@ -6,6 +6,7 @@ const authRoutes = express.Router();
 
 authRoutes.post("/register", register);
 authRoutes.post("/login", login );
-authRoutes.put("/updatepassword", isAuthenticated, changePassword)
+authRoutes.put("/updatepassword", isAuthenticated, changePassword);
+
 
 module.exports = authRoutes;
