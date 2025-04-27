@@ -111,9 +111,50 @@ const deleteImage = async (req, res) => {
     }
 }
 
+const getImagePagination = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 5;
+        const skip = (page - 1) * pageSize;
+
+        const sortBy = req.query.sortBy || 'createdAt';
+        const sortOrder = req.query.sortOrder === 'asc' ? 1 : -1;
+        const totalImages = await Image.countDocuments();
+        const totalPages = Math.ceil(totalImages / pageSize);
+
+        const sortObj = {};
+        sortObj[sortBy] = sortOrder
+        const images = await Image.find().sort(sortObj).skip(skip).limit(pageSize);
+
+        if(images){
+            res.status(200).json({
+                success:true,
+                currentpage:page,
+                totalPages:totalPages,
+                totalImages:totalImages,
+                data:images,
+                
+            })
+        }else{
+            res.status(404).json({
+                success:false,
+                message:"No images found"
+            })
+        }
+
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Something went very wrong !Please try again"
+        })
+    }
+}
+
 module.exports = {
     imageUpload,
     getAllImage,
     deleteImage,
-
+    getImagePagination,
 }
