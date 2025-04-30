@@ -34,29 +34,27 @@ const addProduct = async (req, res) => {
             }
         ];
 
-        for (let i = 0; i < sampleProducts.length; i++) {
-            const sampleProduct = sampleProducts[i];
+        // for (let i = 0; i < sampleProducts.length; i++) {
+        //     const sampleProduct = sampleProducts[i];
 
-            const createRecord = await new Product({
-                name: sampleProduct.name,
-                category: sampleProduct.category,
-                price: sampleProduct.price,
-                inStock: sampleProduct.inStock,
-                tags: sampleProduct.tags
-            });
+        //     const createRecord = await new Product({
+        //         name: sampleProduct.name,
+        //         category: sampleProduct.category,
+        //         price: sampleProduct.price,
+        //         inStock: sampleProduct.inStock,
+        //         tags: sampleProduct.tags
+        //     });
 
-            createRecord.save();
-        }
+        //     createRecord.save();
+        // }
 
+        const createRecord = await Product.insertMany(sampleProducts)
 
         res.status(201).json({
             success: true,
-            message: "Product created successfully",
+            message: `Inserted ${createRecord.length} sample products`,
         });
 
-
-
-        
     }
     catch (error) {
         console.log(error);
@@ -69,10 +67,102 @@ const addProduct = async (req, res) => {
 
 const getProduct = async (req, res) => {
     try {
+
+        const result = await Product.aggregate([
+            //stage 1
+            {
+                $match: {
+                    inStock: true,
+                    price: {
+                        $gte: 100
+                    }
+                }
+            },
+
+            //stage 2 : group document
+            {
+                $group: {
+                    _id: "$category",
+                    avgPrice: {
+                        $avg: "$price"
+                    },
+                    count: {
+                        $sum: 1,
+                    }
+                }
+            },
+
+            //stage 3: project
+            {
+                $project: {
+                    _id: 0,
+                    avgPrice: 1,
+                    count: 1
+                }
+            }
+        ]);
+
         res.status(200).json({
             success: true,
-            message: "Welcome to product page",
-            data: req.user
+            message: "List of All Products",
+            data: result
+        })
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong! Please try again"
+        })
+    }
+}
+
+const getProductAnalysis = async (req, res) => {
+    try {
+
+        const result = await Product.aggregate([{
+            $match: {
+                category: "Electronics"
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                totalRevenue: {
+                    $sum: "$price"
+                },
+                averagePrice: {
+                    $avg: "$price"
+                },
+                maxProductPrice: {
+                    $max: "$price"
+                },
+                minProductPrice: {
+                    $min: "$price"
+                }
+
+            }
+        },
+        {
+            $project:{
+                _id:0,
+                totalRevenue:1,
+                averagePrice:1,
+                maxProductPrice:1,
+                minProductPrice:1,
+                priceRange:{
+                    $subtract: ["$maxProductPrice", "$minProductPrice"],
+                }
+
+            }
+        }
+
+        ]);
+
+        res.status(200).json({
+            success: true,
+            message: "Product with category electronics",
+            data: result
         })
     }
     catch (error) {
@@ -123,4 +213,5 @@ module.exports = {
     getProduct,
     updateProduct,
     deleteProduct,
+    getProductAnalysis
 }
