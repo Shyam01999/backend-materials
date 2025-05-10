@@ -13,8 +13,8 @@ const createAuthor = async (req, res) => {
         await newAuthor.save();
 
         if (!newAuthor) {
-            res.status(500).json({
-                success: true,
+            return res.status(500).json({
+                success: false,
                 message: "Author creation failed"
             });
         }
@@ -25,9 +25,9 @@ const createAuthor = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("Error in add book controller", error);
+        console.log("Error in add author controller", error);
         res.status(500).json({
-            success: true,
+            success: false,
             message: "Something went wrong ! Please try again"
         })
     }
@@ -46,7 +46,7 @@ const createBook = async (req, res) => {
 
         if (!newBook) {
             return res.status(500).json({
-                success: true,
+                success: false,
                 message: "Book creation failed"
             });
         }
@@ -59,7 +59,33 @@ const createBook = async (req, res) => {
     } catch (error) {
         console.log("Error in add book controller", error);
         res.status(500).json({
+            success: false,
+            message: "Something went wrong ! Please try again"
+        })
+    }
+}
+
+const getBookWithAuthor = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id).populate('author');
+
+        if (!book) {
+            return res.status(404).json({
+                success: false,
+                message: "Book not Found"
+            });
+        }
+
+        return res.status(200).json({
             success: true,
+            message: "List of all books",
+            data: book
+        });
+
+    } catch (error) {
+        console.log("Error in book with author controller", error);
+        res.status(500).json({
+            success: false,
             message: "Something went wrong ! Please try again"
         })
     }
@@ -67,5 +93,6 @@ const createBook = async (req, res) => {
 
 module.exports = {
     createAuthor,
-    createBook
+    createBook,
+    getBookWithAuthor,
 }
