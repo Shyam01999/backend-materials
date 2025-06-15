@@ -3,7 +3,9 @@ const app = express();
 
 //middleware
 const requestTimeStampLogger = (req, res, next) => {
-    console.log("This is the first middleware run on every request");
+    const currentTime = new Date().toISOString();
+    console.log("Current Time is:", currentTime, "Method : ", req.method, "URL:", req.url);
+    
     next()
 };
 

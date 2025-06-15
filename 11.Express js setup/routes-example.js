@@ -31,7 +31,7 @@ app.get("/products", (req, res) => {
     })
 });
 
-//get single products
+//dynamic route to get single product by id
 app.get("/product/:id", (req, res) => {
     const products = [
         {

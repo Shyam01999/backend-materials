@@ -20,6 +20,6 @@ app.post("/api/data", (req, res)=>{
 })
 
 app.use((err, req, res, next) => {
-    console.log(err);
+    console.log(err.stack);
     res.status(500).send("Something went wrong")
 })
