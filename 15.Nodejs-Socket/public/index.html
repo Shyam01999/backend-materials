@@ -38,8 +38,50 @@
         const messageInput = document.getElementById("message-input");
 
         const userName = prompt("Enter the username");
-
+        
         socket.emit("join", userName);
+        
+        socket.on("userJoined", (userName) => {
+            addMessage(`${userName} has joined the chat`);
+        });
+
+        socket.on("userList", (users)=>{
+            console.log("users", users);
+            userList.innerHTML = users.map((user) => {
+                return `<li>${user}</li>`;
+            }).join("");    
+            }); 
+
+        socket.on("chatMessage", (message)=>{
+            addMessage(`${message.userName}: ${message.message}`);
+        });
+
+        socket.on("userLeft", (user)=>{
+            addMessage(`${user} has left the chat`);
+        });
+
+        messageForm.addEventListener("submit", (e)=>{
+            e.preventDefault();
+            const message = messageInput.value;
+            if (message.trim() === "") return;
+
+            //send the message to the server
+            socket.emit("chatMessage", { userName, message });
+
+            //clear the input field
+            messageInput.value = "";
+        })
+
+        function addMessage(message) {
+            const messageItem = document.createElement("div");
+            messageItem.textContent = message;
+            chat.appendChild(messageItem);
+
+            //scroll to the bottom of the chat
+            chat.scrollTop = chat.scrollHeight;
+        }
+        
+
     </script>
 </body>
 
