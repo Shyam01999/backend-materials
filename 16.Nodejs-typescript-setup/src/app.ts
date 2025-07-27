@@ -1,7 +1,48 @@
-console.log("Hello, from node js file");
+import dotenv from 'dotenv';
+dotenv.config();
+import express, {Express, NextFunction, Request, Response} from 'express';
 
-function getName(name : string){
-    return name;
+const app : Express = express();
+const PORT = process.env.PORT;
+
+//Middleware
+app.use(express.json());
+
+interface customRequest extends Request {
+startTime? : number
 }
 
-console.log(getName("Shyam"));
+app.use((req : customRequest, res : Response, next : NextFunction) => {
+    req.startTime = Date.now();
+    next();
+})
+
+//route
+app.get("/", (req: Request, res : Response) => {
+    res.send("Server is now running")
+})
+
+//post route -> 
+// -> /user/:id?name -> Request <{}, {}, {}, {}> 
+// {} -> 1st (params)
+// {} -> 2nd (requets)
+// {} -> 3rd (response)
+// {} -> 4th (query) 
+
+interface User {
+    name : string,
+    email: string,
+
+}
+
+app.post("/user", (req: Request<{}, {}, User>, res: Response) => {
+    const {name, email} = req.body;
+
+    
+});
+
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`)
+});
+
