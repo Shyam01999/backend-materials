@@ -18,10 +18,12 @@ app.use(express.json());
 app.use(createBasicRateLimiter(100, 15 * 60 * 1000)); //100 requests per 15 minutes
 // app.use(express.urlencoded({ extended: true }));
 app.use(urlVersioning('v1'));
-app.use(globalErrorHandler);
+
 
 //routes
 app.use('/api/v1', itemRoutes);
+
+app.use(globalErrorHandler);
 
 
 app.listen(PORT, () => {
