@@ -294,3 +294,21 @@ undefined
 {"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T04:38:37.296Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T04:38:51.477Z"}
 {"buffer":{"data":[104,207,129,91,179,154,188,190,121,79,207,254],"type":"Buffer"},"level":"\u001b[33mwarn\u001b[39m","message":"User registered successfully","service":"identity-service","timestamp":"2025-09-21T04:38:51.684Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T16:58:41.502Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T16:58:42.205Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T16:59:58.383Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T16:59:58.451Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T17:00:18.484Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T17:00:18.555Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T17:00:49.271Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T17:00:49.350Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T17:01:01.356Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T17:01:01.425Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T17:01:03.390Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T17:01:03.456Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T17:01:13.807Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T17:01:13.876Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T17:01:15.302Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T17:01:15.377Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T17:01:24.657Z"}
+{"buffer":{"data":[104,208,47,100,179,154,188,190,121,79,208,11],"type":"Buffer"},"level":"\u001b[33mwarn\u001b[39m","message":"User registered successfully","service":"identity-service","timestamp":"2025-09-21T17:01:24.864Z"}

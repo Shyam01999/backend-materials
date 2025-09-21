@@ -91,3 +91,27 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T04:38:51.469Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam014\",\"email\":\"shyamsundarsahoo14@gmail.com\",\"password\":\"Shyam@12345\"}","service":"api-gateway","timestamp":"2025-09-21T04:38:51.469Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 201","service":"api-gateway","timestamp":"2025-09-21T04:38:51.777Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T16:58:41.496Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam014\",\"email\":\"shyamsundarsahoo14@gmail.com\",\"password\":\"Shyam@12345\"}","service":"api-gateway","timestamp":"2025-09-21T16:58:41.496Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 400","service":"api-gateway","timestamp":"2025-09-21T16:58:42.208Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T17:00:18.479Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam013\",\"email\":\"shyamsundarsahoo13@gmail.com\",\"password\":\"Shyam@1234\"}","service":"api-gateway","timestamp":"2025-09-21T17:00:18.479Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 400","service":"api-gateway","timestamp":"2025-09-21T17:00:18.557Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T17:00:49.266Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam013\",\"email\":\"shyamsundarsahoo13@gmail.com\",\"password\":\"Shyam@1234\"}","service":"api-gateway","timestamp":"2025-09-21T17:00:49.266Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 400","service":"api-gateway","timestamp":"2025-09-21T17:00:49.352Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T17:01:01.351Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam010\",\"email\":\"shyamsundarsahoo10@gmail.com\",\"password\":\"Shyam@1234\"}","service":"api-gateway","timestamp":"2025-09-21T17:01:01.351Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 400","service":"api-gateway","timestamp":"2025-09-21T17:01:01.428Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T17:01:03.386Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam010\",\"email\":\"shyamsundarsahoo10@gmail.com\",\"password\":\"Shyam@1234\"}","service":"api-gateway","timestamp":"2025-09-21T17:01:03.387Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 400","service":"api-gateway","timestamp":"2025-09-21T17:01:03.458Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T17:01:13.800Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam014\",\"email\":\"shyamsundarsahoo14@gmail.com\",\"password\":\"Shyam@1234\"}","service":"api-gateway","timestamp":"2025-09-21T17:01:13.800Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 400","service":"api-gateway","timestamp":"2025-09-21T17:01:13.878Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T17:01:15.297Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam014\",\"email\":\"shyamsundarsahoo14@gmail.com\",\"password\":\"Shyam@1234\"}","service":"api-gateway","timestamp":"2025-09-21T17:01:15.298Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 400","service":"api-gateway","timestamp":"2025-09-21T17:01:15.379Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request received : POST - /v1/auth/register","service":"api-gateway","timestamp":"2025-09-21T17:01:24.654Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Request Body : {\"username\":\"Shyam015\",\"email\":\"shyamsundarsahoo15@gmail.com\",\"password\":\"Shyam@1234\"}","service":"api-gateway","timestamp":"2025-09-21T17:01:24.654Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Response received from Identity Service for POST /v1/auth/register with status code 201","service":"api-gateway","timestamp":"2025-09-21T17:01:24.944Z"}
