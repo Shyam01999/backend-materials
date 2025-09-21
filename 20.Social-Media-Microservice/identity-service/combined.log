@@ -284,3 +284,13 @@ undefined
 {"level":"\u001b[32minfo\u001b[39m","message":"MongoDB connected Successfully","service":"identity-service","timestamp":"2025-09-16T02:03:20.613Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-16T02:03:31.303Z"}
 {"buffer":{"data":[104,200,197,115,43,19,218,34,67,67,225,104],"type":"Buffer"},"level":"\u001b[33mwarn\u001b[39m","message":"User registered successfully","service":"identity-service","timestamp":"2025-09-16T02:03:31.556Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Identity service is running on port 3001","service":"identity-service","timestamp":"2025-09-21T04:26:38.144Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"MongoDB connected Successfully","service":"identity-service","timestamp":"2025-09-21T04:26:39.354Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T04:26:44.571Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T04:26:44.655Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Identity service is running on port 3001","service":"identity-service","timestamp":"2025-09-21T04:38:33.206Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"MongoDB connected Successfully","service":"identity-service","timestamp":"2025-09-21T04:38:34.388Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T04:38:37.214Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"User already exists with provided username or email","service":"identity-service","timestamp":"2025-09-21T04:38:37.296Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Register controller called","service":"identity-service","timestamp":"2025-09-21T04:38:51.477Z"}
+{"buffer":{"data":[104,207,129,91,179,154,188,190,121,79,207,254],"type":"Buffer"},"level":"\u001b[33mwarn\u001b[39m","message":"User registered successfully","service":"identity-service","timestamp":"2025-09-21T04:38:51.684Z"}
