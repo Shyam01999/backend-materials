@@ -1,0 +1,4 @@
+node_modules
+
+# if you want to ignore multiple extension file then use -> *.txt, *.html, *.css etc.
+

@@ -1,0 +1,6 @@
+services:
+  img:
+    build: .
+    container_name: nodejs-auth
+    ports:
+      - 8080:8080

@@ -5,7 +5,7 @@ const isAdmin = (roles) => async (req, res, next) => {
             return res.status(403).json({
                 success: false,
                 message: "Admin right required"
-            })
+            });
         }
 
         return next();

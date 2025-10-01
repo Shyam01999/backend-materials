@@ -58,15 +58,15 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { username, password } = req.body;
-
+        
         const checkRecord = await User.findOne({ username });
-
         if (!checkRecord) {
             return res.status(400).json({
                 success: false,
                 message: "Username does not exist"
             })
         }
+
         const { _id: id, password: hashpassword, email, role } = checkRecord
 
         // check password
@@ -86,11 +86,12 @@ const login = async (req, res) => {
             role
         });
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: "Login successfull",
             accessToken: accessToken,
-        })
+            newUserKey: "test"
+        });
     }
     catch (error) {
         console.log(error);
@@ -161,4 +162,6 @@ module.exports = {
     login,
     changePassword,
 }
+
+
 
