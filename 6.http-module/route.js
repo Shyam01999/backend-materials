@@ -10,7 +10,7 @@ const server = http.createServer((req, res) => {
         res.end("Project")
     } else {
         res.writeHead(404, { "Content-Type": "text-plain" });
-        res.end("This url does does not exist")
+        res.end("This url does not exist")
     }
    
 })
