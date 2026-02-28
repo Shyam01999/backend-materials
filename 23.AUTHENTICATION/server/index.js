@@ -5,6 +5,7 @@ import db from "./models/index.js";
 import cors from 'cors';
 import authRoutes from './routes/auth.route.js';
 import {createClient} from 'redis';
+import cookieParser from 'cookie-parser';
 
 
 
@@ -37,7 +38,8 @@ redisClient.on("error", (err) => {
 
 //middleware
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser());
 
 
 
