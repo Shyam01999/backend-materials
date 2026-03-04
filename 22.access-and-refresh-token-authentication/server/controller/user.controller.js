@@ -112,7 +112,7 @@ const getUserDetails = async (req, res) => {
 }
 
 const logout = async (req, res, next) => {
-    const {success, message} = await clearSession(req.user.sessionId);
+    const {success} = await clearSession(req.user.sessionId);
     
     if(!success){
         return next(new AppError(`Session not deleted`, 500))
