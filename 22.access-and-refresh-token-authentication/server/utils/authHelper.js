@@ -4,6 +4,7 @@ const { User, UserSession } = require("../model");
 const AppError = require("./appError");
 const { where } = require("sequelize");
 
+const isProduction = process.env.NODE_ENV === 'production';
 
 //create hash password
 const generateHashPassword = async (password) => {
@@ -31,34 +32,33 @@ const createSession = async (userid, valid, { user_agent, ip }) => {
 
 const createAccessToken = (accessTokenData) => {
     const { id, name, email, sessionId } = accessTokenData;
-    return jwt.sign({ id, name, email, sessionId }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRES }) //expiresin 15m
+    return jwt.sign({ id, name, email, sessionId }, process.env.JWT_ACCESS_SECRET_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRES }) //expiresin 15m
 }
 
 const createRefreshToken = (sessionId) => {
-    return jwt.sign({ sessionId }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.REFRESH_TOKEN_EXPIRES }) //expiresin 7day
+    return jwt.sign({ sessionId }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: process.env.REFRESH_TOKEN_EXPIRES }) //expiresin 7day
 }
 
 const sendAcessTokenAndRefeshToken = (res, accessToken, refreshToken) => {
     //options for cookie
     // const cookieExpire = new Date(Date.now() + (process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000));
     const options = {
-        httpOnly: process.env.HTTP_ONLY === "true",  // better to keep this true for security reasons
-        secure: process.env.COOKIE_SECURE === "true",
-        sameSite: 'lax', // Adjust if needed
-        path: '/', // Adjust if needed
-        maxAge: 15 * 60 * 1000
+        httpOnly: process.env.HTTP_ONLY === "true" ? true : false, 
+        secure: isProduction ? process.env.COOKIE_SECURE === "true" && true : false, //acess only in https
+        sameSite: process.env.COOKIE_SAME_SITE, //FOR CSRF
+        path: '/', 
     };
 
-    res.cookie("access_token", accessToken, { ...options, maxAge: 15 * 60 * 1000 });
+    res.cookie("access_token", accessToken, { ...options, maxAge: Number(process.env.COOKIE_ACCESS_TOKEN_EXPIRES) * 60 * 1000 });
 
-    res.cookie("refresh_token", refreshToken, { ...options, maxAge: 7 * 24 * 60 * 60 * 1000 });
+    res.cookie("refresh_token", refreshToken, { ...options, maxAge: Number(process.env.COOKIE_REFRESH_TOKEN_EXPIRES) * 24 * 60 * 60 * 1000 });
 
 }
 
 //verify jwt Token
-const verifyJWTToken = (token) => {
+const verifyJWTToken = (token, secretKey) => {
     try {
-        return jwt.verify(token, process.env.JWT_SECRET_KEY);
+        return jwt.verify(token, secretKey);
     } catch (err) {
         console.error("JWT verification failed:", err.message);
         return null; // or throw a custom error
@@ -67,28 +67,30 @@ const verifyJWTToken = (token) => {
 
 //create access token from refresh token
 const refreshTokens = async (token) => {
-    const decodedToken = verifyJWTToken(token);
+    const decodedToken = verifyJWTToken(token, process.env.JWT_REFRESH_SECRET_KEY);
 
-    // const session = await UserSession.findOne({ where: { id: decodedToken.sessionId } });
     const session = await UserSession.findByPk(decodedToken.sessionId);
+
     if (!session) {
         return next(new AppError(`Invalid Session`, 400))
     }
+
     const { userid } = session;
 
-    // const userdetails = await User.findOne({ where: { id: userid } })
     const userdetails = await User.findByPk(userid)
     if (!userdetails) {
         return next(new AppError(`Invalid User`, 400))
     }
 
     const { username, email } = userdetails;
+
     const userinfo = {
         id: userid,
         name: username,
         email: email,
         sessionId: session.id,
     }
+
     const newaccessToken = createAccessToken(userinfo);
 
     const newrefreshToken = createRefreshToken(session.id);

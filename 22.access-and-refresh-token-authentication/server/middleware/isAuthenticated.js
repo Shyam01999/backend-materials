@@ -6,12 +6,15 @@ const isAuthenticated = TryCatch(async (req, res, next) => {
     const accessToken = req.cookies.access_token;
     const refreshToken = req.cookies.refresh_token;
 
+
     if (!accessToken && !refreshToken) {
+        req.user = null;
         return next(new AppError(`Please login to access this route`, 401))
     }
     
     if (accessToken) {
-        const decodedToken = verifyJWTToken(accessToken);   
+        const decodedToken = verifyJWTToken(accessToken, process.env.JWT_ACCESS_SECRET_KEY); 
+
         if(!decodedToken){
             return next(new AppError(`Access denied! Please provide the correct token to login`, 401))
         }

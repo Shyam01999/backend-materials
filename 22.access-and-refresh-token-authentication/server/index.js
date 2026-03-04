@@ -7,7 +7,11 @@ const requestIp = require("request-ip")
 
 
 const app = express();
+const isProduction = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || 8080;
+
+const backendDomain = isProduction ? process.env.BACKEND_URL : `http://localhost:${PORT}`;
+
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', 'https://vliv.app', 'https://vliv.app/', 'https://hrms.vliv.app', 'http://localhost:6003', 'http://localhost:6004', 'http://localhost:6005', 'https://hrms.vliv.app', 'https://klms.vliv.app', 'https://dms.vliv.app', 'https://pms.vliv.app', 'https://vliv.app', 'https://mercury-uat.phonepe.com', 'https://mercury-t2.phonepe.com', 'https://www.vliv.app']
 
 app.use(cors({
@@ -57,14 +61,21 @@ app.use(globalErrorHandler);
 //authtication function
 app.use(isAuthenticated)
 
-db.sequelize
-    .sync({ force: false })
-    .then(() => {
+//server 
+
+const startServer = async () => {
+    try {
+        await db.sequelize.sync({ force: false });
+
         app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-            console.log("Database connected successfully");
+            console.log(`Server is running on ${backendDomain}`);
+            console.log(`${isProduction ? 'Production' : 'Development'} database connected successfully !`)
+
         })
-    })
-    .catch((err) => {
-        console.error("Error syncing database:", err);
-    });
+    } catch (error) {
+        console.error("Error syncing database:", error.message);
+        process.exit(1); // Why: Don't run server without DB
+    }
+};
+
+startServer();

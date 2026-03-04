@@ -7,6 +7,6 @@ const userRoutes = Router();
 userRoutes.post("/register", registerValidator(), validateHandler, register);
 userRoutes.post("/login", loginValidator(), validateHandler, login);
 userRoutes.get("/logout", isAuthenticated, logout)
-userRoutes.post("/details", getUserDetails);
+userRoutes.get("/details", isAuthenticated, getUserDetails);
 
 module.exports = userRoutes;

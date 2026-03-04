@@ -32,6 +32,7 @@ const register = async (req, res, next) => {
         if (!newUser) {
             return next(new AppError('Registration failed', 400));
         }
+
         const { id: userid } = newUser;
 
         //create record in session table
@@ -75,6 +76,7 @@ const login = async (req, res, next) => {
         if (!verify) {
             return next(new AppError(`Invalid credentials`, 400));
         };
+        console.log("ip", req.clientIp);
 
         //create record in session table
         const session = await createSession(userid, valid = true, { user_agent: req.headers['user-agent'], ip: req.clientIp })
@@ -100,7 +102,13 @@ const login = async (req, res, next) => {
 }
 
 const getUserDetails = async (req, res) => {
+    const userDetails = req.user;
 
+    res.status(200).json({
+        success:true,
+        message:"User Details fetched",
+        data:userDetails
+    })
 }
 
 const logout = async (req, res, next) => {

@@ -2,17 +2,17 @@ require('dotenv').config()
 
 module.exports = {
   "development": {
-    "username": process.env.DB_USERNAME,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_NAME,
-    "host": process.env.DB_HOST,
-    "dialect": process.env.DB_DIALECT,
+    "username": process.env.LOCAL_DB_USERNAME,
+    "password": process.env.LOCAL_DB_PASSWORD,
+    "database": process.env.LOCAL_DB_NAME,
+    "host": process.env.LOCAL_DB_HOST,
+    "dialect": process.env.LOCAL_DB_DIALECT,
     "logging": false,
-    // "ssl": process.env.DB_SSL,
+    // "ssl": process.env.LOCAL_DB_SSL,
     // "dialectOptions": {
     //   "ssl": {
-    //     "require": process.env.DB_SSLREQUIRE,
-    //     "rejectUnauthorized": process.env.DB_SSLREJECTUNAUTHORIZED,
+    //     "require": process.env.LOCAL_DB_SSLREQUIRE,
+    //     "rejectUnauthorized": process.env.LOCAL_DB_SSLREJECTUNAUTHORIZED,
     //   },
     // },
   },
@@ -24,18 +24,19 @@ module.exports = {
     "dialect": "mysql"
   },
   "production": {
-    "username": process.env.DB_USERNAME,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_NAME,
-    "host": process.env.DB_HOST,
-    "dialect": process.env.DB_DIALECT,
-    // "logging": process.env.DB_LOGGING,
-    // "ssl": process.env.DB_SSL,
+    username: process.env.PRODUCTION_DB_USERNAME,
+    password: process.env.PRODUCTION_DB_PASSWORD,
+    database: process.env.PRODUCTION_DB_NAME,
+    host: process.env.PRODUCTION_DB_HOST,
+    dialect: process.env.PRODUCTION_DB_DIALECT,
+    logging: false,
+    // "logging": process.env.PRODUCTION_DB_LOGGING,
+    // "ssl": process.env.PRODUCTION_DB_SSL,
     // "dialectOptions": {
     //   "ssl": {
-    //     "require": process.env.DB_SSLREQUIRE,
-    //     "rejectUnauthorized": process.env.DB_SSLREJECTUNAUTHORIZED,
+    //     "require": process.env.PRODUCTION_DB_SSLREQUIRE,
+    //     "rejectUnauthorized": process.env.PRODUCTION_DB_SSLREJECTUNAUTHORIZED,
     //   },
     // },
-  }
+  },
 }
