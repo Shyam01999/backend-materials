@@ -267,13 +267,11 @@ const verifyOtp = TryCatch(async (req, res) => {
 
     const token = await generateToken({ id: user.id, res });
 
-
     res.status(200).json({
         success: true,
         message: `Welcome ${user.name}`,
         data: user
     })
-
 
 });
 

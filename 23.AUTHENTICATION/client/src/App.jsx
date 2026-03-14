@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Verify from './pages/Verify';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import VerifyOtp from './pages/VerifyOtp';
 
 const App = () => {
   return (
@@ -12,7 +13,8 @@ const App = () => {
             <Route path={"/"} element={<Home />}></Route>
             <Route path={"/login"} element={<Login />}></Route>
             <Route path={"/register"} element={<Register />}></Route>
-            <Route path={"/verify"} element={<Verify/>}></Route>
+            <Route path={"/verifyOtp"} element={<VerifyOtp/>}></Route>
+          
       </Routes>
     </BrowserRouter>
   )

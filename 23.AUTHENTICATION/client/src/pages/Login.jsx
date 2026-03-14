@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { serverUrl } from '../constants/api';
 import { notifyError, notifySuccess } from '../constants/notification';
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
     const [data, setData] = useState({
@@ -9,9 +10,10 @@ function Login() {
         password: "",
     });
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
 
         setData(() => ({
             ...data,
@@ -19,26 +21,29 @@ function Login() {
         }))
     }
 
-    const handleSubmit = async(e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try{
+        try {
             setLoading(true);
-            const res = await axios.post(`${serverUrl}/api/v1/auth/login`, data, {withCredentials:true});
-            if(res.data.success){
-                notifySuccess(res.data.message)
-            }else{
+            const res = await axios.post(`${serverUrl}/api/v1/auth/login`, data, { withCredentials: true });
+
+            if (res.data.success) {
+                notifySuccess(res.data.message);
+                navigate("/verifyOtp", { state: { email: data.email } });
+
+            } else {
                 notifyError(res.data.message)
             }
 
         }
-        catch(error){
+        catch (error) {
             console.log(error);
             const message =
-        error?.response?.data?.message || "Something went wrong";
+                error?.response?.data?.message || "Something went wrong";
             notifyError(message)
         }
-        finally{
+        finally {
             setLoading(false)
         }
 
@@ -52,7 +57,7 @@ function Login() {
                     <p className="leading-relaxed mt-4">Poke slow-carb mixtape knausgaard, typewriter street art gentrify hammock starladder roathse. Craies vegan tousled etsy austin.</p>
                 </div>
                 <form onSubmit={handleSubmit} className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-                    <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Sign Up</h2>
+                    <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Sign In</h2>
                     <div className="relative mb-4">
                         <label htmlFor="email" className="leading-7 text-sm text-gray-600">Email</label>
                         <input
@@ -82,7 +87,7 @@ function Login() {
                         />
                     </div>
                     <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" type='submit'>{loading ? "Submitting..." : "Login"}</button>
-                    <p className="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+                    <Link to={"/registration"} className="text-xs text-gray-500 mt-3">Don't have any account ?</Link>
                 </form>
             </div>
         </section>
