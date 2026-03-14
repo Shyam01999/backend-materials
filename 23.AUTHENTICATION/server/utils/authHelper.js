@@ -4,7 +4,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const options = {
             httpOnly: process.env.HTTP_ONLY === "true" ? true : false, //only backend read token
-            secure: isProduction ? process.env.COOKIE_SECURE === "true" && true : false, //CSRF(Cross site request forgery)
+            secure: isProduction ? process.env.COOKIE_SECURE === "true" && true : true, //CSRF(Cross site request forgery)
             sameSite: process.env.COOKIE_SAME_SITE, //XSS Attack
             path: '/',
         };
