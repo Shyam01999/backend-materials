@@ -330,7 +330,6 @@ const logoutUser = TryCatch(async (req, res)=>{
 })
 
 
-
 export {
     register,
     verifyToken,

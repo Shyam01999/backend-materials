@@ -1,17 +1,18 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutUser } from '../redux/actions/auth.actions';
 
 function Home() {
   const {loading, userData, isAuth, error} = useSelector((state) => state.userDetailsReducer);
-  const name = userData?.name || '';
-  const email = userData?.email || '';
-  const role = userData?.role || '';
+  const dispatch = useDispatch();
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  }
+  
   return (
-    <div>
-      <h1>Namaste, {name}</h1>
-      <h2>Email: {email}</h2>
-      <h2>Role: {role}</h2>
+    <div className='flex w-[100px] m-auto mt-40'>
+      <button className='bg-red-500 text-white p-2 rounded-md' onClick={handleLogout}>Logout</button>
     </div>
   )
 }

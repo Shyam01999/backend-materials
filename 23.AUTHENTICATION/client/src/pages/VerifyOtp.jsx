@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { serverUrl } from '../constants/api';
 import { notifyError, notifySuccess } from '../constants/notification';
+import { useDispatch } from 'react-redux';
+import { userDetails } from '../redux/actions/auth.actions';
 
 function VerifyOtp() {
   const [otp, setOtp] = useState('');
@@ -10,8 +12,10 @@ function VerifyOtp() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  
   const email = location.state?.email;
-  console.log("email", email)
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,11 +25,11 @@ function VerifyOtp() {
         email,
         otp
       }, { withCredentials: true });
-      
+      console.log("res", res)
       if (res.data.success) {
+        dispatch(userDetails());
         notifySuccess(res.data.message);
         navigate("/");
-
       } else {
         notifyError(res.data.message)
       }
