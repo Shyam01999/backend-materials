@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { redisClient } from '../index.js';
+import { generateCSRFToken } from '../middlewares/csrfMiddleware.js';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const options = {
@@ -11,7 +12,6 @@ const options = {
 
 const generateToken = async ({ id, res }) => {
     try {
-
         const accessToken = jwt.sign({ id }, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_TIME });
 
         const refreshToken = jwt.sign({ id }, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRES_TIME });
@@ -28,7 +28,9 @@ const generateToken = async ({ id, res }) => {
             maxAge: Number(process.env.COOKIE_REFRESH_TOKEN_EXPIRES) * 24 * 60 * 60 * 1000
         });
 
-        return { accessToken, refreshToken }
+        const csrfToken = await generateCSRFToken(id, res);
+
+        return { accessToken, refreshToken, csrfToken };
     }
     catch (error) {
         console.log(`Error while generating token:`, error)

@@ -9,6 +9,7 @@ import sendMail from '../services/sendMail.js';
 import { getOtpHtml, getVerifyEmailHtml } from '../services/mailTemplate.js';
 import { generateAccessToken, generateToken, revokeRefreshToken, verifyRefreshToken } from '../utils/authHelper.js';
 import { success } from 'zod';
+import { generateCSRFToken } from '../middlewares/csrfMiddleware.js';
 
 const { User } = db;
 
@@ -288,44 +289,57 @@ const myProfile = TryCatch(async (req, res) => {
 
 const refreshToken = TryCatch(async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    
-    if(!refreshToken){
+
+    if (!refreshToken) {
         return res.status(401).json({
-            success:false,
-            message:"Invalid Refresh Token."
+            success: false,
+            message: "Invalid Refresh Token."
         })
     }
 
     const validateToken = await verifyRefreshToken(refreshToken);
-    
-    if(!validateToken){
+
+    if (!validateToken) {
         return res.status(401).json({
-            success:false,
-            message:"Provided Invalid Refresh Token."
+            success: false,
+            message: "Provided Invalid Refresh Token."
         })
     }
 
-    generateAccessToken({id: validateToken.id, res});
+    generateAccessToken({ id: validateToken.id, res });
 
     res.status(200).json({
-        success:true,
-        message:"Token Refreshed"
+        success: true,
+        message: "Token Refreshed"
     });
 });
 
-const logoutUser = TryCatch(async (req, res)=>{
+const logoutUser = TryCatch(async (req, res) => {
     const userId = req.user.id;
-    
+
     await revokeRefreshToken(userId);
 
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
+    res.clearCookie('csrfToken');
 
     await redisClient.del(`user:${userId}`);
 
     res.status(200).json({
-        success:true,
-        message:"Logged out Successfully"
+        success: true,
+        message: "Logged out Successfully"
+    })
+})
+
+const refreshCSRF = TryCatch(async (req, res, next) => {
+    const userId = req.user.id;
+
+    const newCSRFToken = await generateCSRFToken(userId, res);
+
+    res.status(200).json({
+        success: true,
+        message: "CSRF token refreshed successfully",
+        csrfToken: newCSRFToken
     })
 })
 
@@ -337,5 +351,6 @@ export {
     verifyOtp,
     myProfile,
     refreshToken,
-    logoutUser
+    logoutUser,
+    refreshCSRF
 }

@@ -15,7 +15,6 @@ export const userDetails = () => async (dispatch) => {
     catch (error) {
         console.log(error);
         dispatch({ type: USER_DATA_FAILED, payload: error.response.data.message });
-        notifyError(error.response.data.message);
     }
 }
 
@@ -23,8 +22,7 @@ export const userDetails = () => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
     try {
         dispatch({ type: USER_LOGOUT_LOADING })
-        const res = api.post(`/api/v1/logout`, {}, { withCredentials: true });
-        console.log("res", res);
+        const res = await api.post(`/api/v1/logout`, {}, { withCredentials: true });
 
         if (res.data.success) {
             dispatch({type: USER_LOGOUT_SUCCESS, payload:{

@@ -1,4 +1,4 @@
-import { USER_DATA_FAILED, USER_DATA_LOADING, USER_DATA_SUCCESS } from "../actionTypes"
+import { USER_DATA_FAILED, USER_DATA_LOADING, USER_DATA_SUCCESS, USER_LOGOUT_FAILED, USER_LOGOUT_LOADING, USER_LOGOUT_SUCCESS } from "../actionTypes/index"
 
 const initialState = {
     loading: false,
